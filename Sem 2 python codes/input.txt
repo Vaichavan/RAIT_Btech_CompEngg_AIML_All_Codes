@@ -1,0 +1,1 @@
+ here checking sample content HI for testing file read and write. expt13a

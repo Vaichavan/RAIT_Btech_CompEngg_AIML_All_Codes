@@ -1,0 +1,1184 @@
+1)	Selection sort:-
+
+.Algorithm:
+SELECTION SORT
+1. Start.
+2. Define an array ‘A’ of size ‘n’.
+3. Read array elements from the user.
+4. Define first element of the array as ‘min’ i.e. min=A [0].
+5. for i =0 to n-2
+5.1 min =A[i]
+5.2 loc = i //loc variable keeps the track of minimum element
+5.3 //Inner Loop 
+for j =i+1 to n-1
+//find number of comparisons and swapping for reference.
+5.3.1 if (A[j]<min) then
+5.3.1.1 min=A[j]
+5.3.1.2 loc=j
+5.4 if (loc! =i) then
+5.5 swap(A[i], A[loc])
+6. Display sorted array.
+7. Stop.
+
+CODES- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#include <stdio.h>
+
+void selectionSort(int A[], int n) {
+    int i, j; // Declare loop variables here
+    for (i = 0; i < n - 1; ++i) {
+        int min = A[i];
+        int loc = i;
+
+        for (j = i + 1; j < n; ++j) {
+            if (A[j] < min) {
+                min = A[j];
+                loc = j;
+            }
+        }
+
+        if (loc != i) {
+            // Swap A[i] and A[loc]
+            int temp = A[i];
+            A[i] = A[loc];
+            A[loc] = temp;
+        }
+    }
+}
+
+int main() {
+    int n, i, A[50]; // Declare loop variable here
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+
+    printf("Enter the elements of the array:\n");
+    for (i = 0; i < n; ++i) {
+        scanf("%d", &A[i]);
+    }
+
+    // Perform selection sort
+    selectionSort(A, n);
+
+    // Display sorted array
+    printf("Sorted array:\n");
+    for (i = 0; i < n; ++i) {
+        printf("%d ", A[i]);
+    }
+    printf("\n");
+    
+    return 0;
+}
+____________________________________________________________
+output ++++++++++++++++++++++++++++++++++++++++++++++
+6
+32 43 2 4 1 65
+1 2 4 32 43 65
+____________________________________________________________
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+2)	Binary search:-
+. Algorithm :
+ 1. Read array elements in increasing order. 
+ 2. Read the element to be searched, say ‘KEY ‘.
+ 3. int BinarySearch(int array[], int start_index, int end_index, int KEY)
+ {
+ if (end_index >= start_index)
+ {
+ int middle = start_index + (end_index - start_index )/2;
+ if (array[middle] == KEY)
+ return middle;
+ if (array[middle] > KEY)
+ return BinarySearch(array, start_index, middle-1, KEY);
+ return BinarySearch(array, middle+1, end_index, KEY);
+ }
+ return -1;
+ }
+
+
+codes+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#include <stdio.h>
+int counter = 0;
+
+int binarySearch(int arr[], int l, int r, int x) {
+    counter++;
+
+    if (l <= r) {
+        int mid = l + (r - l) / 2;
+
+        if (arr[mid] == x)
+            return mid;
+
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+
+        return binarySearch(arr, mid + 1, r, x);
+    }
+
+    return -1;
+}
+
+int main() {
+    int arr[10], n,i,result, x;
+
+    printf("Enter the size of array: ");
+    scanf("%d", &n);
+
+    printf("Enter the sorted array elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Enter the element to be searched: ");
+    scanf("%d", &x);
+
+    result = binarySearch(arr, 0, n - 1, x);
+
+    if (result == -1) {
+        printf("\nElement is not present in array");
+    } else {
+        printf("\nElement is present at index %d ", result);
+    }
+
+    printf("\nCounter: %d\n", counter);
+
+    return 0;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+3)	Merge sort:-
+
+Algorithm :
+ Algorithm MergeSort( int A[0....n-1,low,high) : 
+ if (low<high) then
+ {
+ mid ← (low+high)/2
+ MergeSort (A,low,mid)
+ MergeSort (A,mid+1, high)
+ Combine(A,low,mid,high)
+ }
+ Algorithm Combine(int A[0....n-1,low,high) : 
+1. k ← low
+2. i ← low
+3. j ← mid+1
+4. while(i<= mid && j<=high) do
+ {
+ if (A[i]<=A[j] then
+ {
+ temp[k] ← A[i]
+ i←i+1
+ k←k+1
+ }
+ else
+ {
+ temp[k] ← A[j]
+ j←j+1
+ k←k+1
+ }
+ }
+5. while (i<=mid) do
+ {
+ temp[k] ← A[i]
+ i←i+1
+ k←k+1
+ }
+6. while (j<=high) do
+ {
+ temp[k] ← A[j]
+ j←j+1
+ k←k+1
+ }
+
+codes++++++++++++++++++++++++++++++++++++++++++++++++
+#include <stdio.h>
+#include <stdlib.h>
+
+int count = 0;
+
+void merge(int arr[], int l, int m, int r) {
+    int i, j, k, n1, n2, L[10], R[10];
+    n1 = m - l + 1;
+    n2 = r - m;
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    i = 0;
+    j = 0;
+    k = l;
+
+    while (i < n1 && j < n2) {
+        count++;
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        count++;
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        count++;
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int l, int r) {
+    int m;
+    if (l < r) {
+        m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+
+void printArray(int A[], int size) {
+    int i;
+    for (i = 0; i < size; i++)
+        printf("%d ", A[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[10], n, i;
+    int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Enter the size of the array: ");
+    scanf("%d", &n);
+
+    printf("Enter the elements: ");
+    for (i = 0; i < n; i++)
+        {scanf("%d", &arr[i]);}
+
+    mergeSort(arr, 0, n - 1);
+
+    printf("\nAfter sorting:\n");
+    printArray(arr, n);
+
+    printf("Counter: %d\n", count);
+
+    return 0;
+}
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+4)	Knapsack problem:-
+
+ Algorithm :
+1. Let ‘W’ be the maximum weight of the knapsack
+2. Let ‘wi’ and ‘pi’ be the weight and profit of individual items i.e. for 
+i=1……n
+3. Calculate pi / wiratio and arrange that in decreasing order.
+4. initially weight=0 and profit = 0
+5. for i=1 to n
+{
+add item in knapsack till weight <= W
+ profit = profit + pi
+}
+6. Stop
+
+
+codes+++++++++++++++++++++++++++++++++++++++++++++++
+#include <stdio.h>
+
+int main() {
+    int capacity, no_items, cur_weight, item;
+    int used[10];
+    float total_profit;
+    int weight[10];
+    int value[10];
+    int i;
+
+    printf("Enter the capacity of knapsack: \n");
+    scanf("%d", &capacity);
+
+    printf("Enter the number of items:\n");
+    scanf("%d", &no_items);
+
+    printf("Enter the weight and value of each item:\n");
+    for (i = 0; i < no_items; i++) {
+        printf("Weight[%d]:\t", i + 1);
+        scanf("%d", &weight[i]);
+
+        printf("Value[%d]:\t", i + 1);
+        scanf("%d", &value[i]);
+    }
+
+    for (i = 0; i < no_items; ++i) {
+        used[i] = 0;
+    }
+
+    cur_weight = capacity;
+    while (cur_weight > 0) {
+        item = -1;
+        for (i = 0; i < no_items; ++i) {
+            if ((used[i] == 0) && (item == -1 || ((float)value[i] / weight[i] > (float)value[item] / weight[item]))) {
+                item = i;
+            }
+        }
+
+        used[item] = 1;
+        cur_weight -= weight[item];
+        total_profit += value[item];
+
+        if (cur_weight >= 0) {
+            printf("Added object %d (%d Rs., %dKg) completely in the bag. Space left: %d.\n", item + 1, value[item], weight[item], cur_weight);
+        } else {
+            int item_percent = (int)(((1 + (float)cur_weight / weight[item])) * 100);
+            printf("Added %d%% (%d Rs., %dKg) of object %d in the bag.\n", 
+            item_percent, value[item], weight[item], item + 1);
+            total_profit -= value[item];
+            total_profit += (1 + (float)cur_weight / weight[item]) * value[item];
+        }
+    }
+
+    printf("Filled the bag with objects worth %.2f Rs.\n", total_profit);
+
+    return 0;
+}
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+5) Dijkstra 
+
+Algorithm :
+1. Let ‘adj’ be the adjacency matrix of graph ‘G’ having ‘v’ vertices numbered 
+from 1 to v and having ‘e’ edges.
+2. Let distance, path and visited be arrays of ‘v’ elements each.
+3. Array ‘distance’ is initialized to ∞, while ‘path’ array and ‘visited’ array is 
+initialized to 0.
+4. Let current = source vertex.
+5. visited[current]=1
+6. T = 0
+7. Let number of vertices already added to the trace be given as nv and let nv=1.
+8. Repeat steps 9 to 13 while nv ≠ v.
+9. for i= 1 to v
+ if (adj[current][i] ≠ 0)
+ if (visited[i] ≠ 1)
+30
+ if ( distance[i] >adj[current][i])
+ {
+ distance[i] = adj[current][i] + T
+ path[i]=current
+ }
+10. min = ∞ (in program min=32767)
+ for i= 1 to v
+ if ( visited[i] ≠ 1)
+ if ( distance[i] < min)
+ {
+ min = distance[i]
+ current = i
+ }
+11. visited[current]=1
+12. nv = nv+1
+13. T = distance[current]
+14. Let dest be the destination vertex
+ Shortest distance from the source vertex to the destination vertex = 
+distance[dest]
+ y = dest
+do
+ { 
+ x = path[y]
+ Display vertex i is connected to vertex x.
+ }
+15. while y ≠ sorce vertex repeat steps 2 to 15 for each vertex as the sorce vertex.
+16. Stop.
+
+
+codes +++++++++++++++++++++++++++++++++++
+#include <stdio.h>
+#include <conio.h>
+
+#define INFINITY 9999
+#define MAX 10
+
+void dijkstra(int G[MAX][MAX], int n, int startnode);
+
+int main() {
+    int G[MAX][MAX], i, j, n, u;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+
+    printf("\nEnter the adjacency matrix:\n");
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            scanf("%d", &G[i][j]);
+    printf("Enter the starting node: ");
+    scanf("%d", &u);
+
+    dijkstra(G, n, u);
+
+    printf("\n");
+    return 0;
+    
+}
+
+void dijkstra(int G[MAX][MAX], int n, int startnode) {
+    int cost[MAX][MAX], distance[MAX], pred[MAX];
+    int visited[MAX], count, mindistance, nextnode, i, j;
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (G[i][j] == 0)
+                cost[i][j] = INFINITY;
+            else
+                cost[i][j] = G[i][j];
+        }
+    }
+
+    for (i = 0; i < n; i++) {
+        distance[i] = cost[startnode][i];
+        pred[i] = startnode;
+        visited[i] = 0;
+    }
+
+    distance[startnode] = 0;
+    visited[startnode] = 1;
+    count = 1;
+
+    while (count < n - 1) {
+        mindistance = INFINITY;
+
+        for (i = 0; i < n; i++) {
+            if (distance[i] < mindistance && !visited[i]) {
+                mindistance = distance[i];
+                nextnode = i;
+            }
+        }
+
+        visited[nextnode] = 1;
+        for (i = 0; i < n; i++) {
+            if (!visited[i]) {
+                if (mindistance + cost[nextnode][i] < distance[i]) {
+                    distance[i] = mindistance + cost[nextnode][i];
+                    pred[i] = nextnode;
+                }
+            }
+        }
+        count++;
+    }
+
+    for (i = 0; i < n; i++) {
+        if (i != startnode) {
+            printf("\nDistance of node %d: %d", i, distance[i]);
+            printf("\nPath=%d", i);
+
+            j = i;
+            do {
+                j = pred[j];
+                printf("<-%d", j);
+            } while (j != startnode);
+        }
+    }
+}
+____________________________________________________________
+output
+5
+
+20 40 0 100 0
+60 30 90 0 0
+50 0 10  40 0
+80 20 0 70 0
+90 0 40 0 30
+
+0 
+____________________________________________________________
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+6) 1. Aim : Write a program to Implement Huffman Coding Algorithm.
+
+. Algorithm :
+1. n = |C| 
+2. Q = C 
+3. for i = 1 to n - 1
+4. allocate a new node ´
+5. z. left = x = EXTRACT-MIN(Q)
+6. z. right = y = EXTRACT-MIN(Q)
+7. z. freq = x.freq + y.freq
+8. INSERT(Q,z)
+9. return EXTRACT-MIN(Q)
+
+
+codes+++++++++++++++++++++++++++++++
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct node {
+    char ch;
+    int freq;
+    struct node *left;
+    struct node *right;
+} Node;
+
+Node *heap[100];
+int heapSize = 0;
+
+void Insert(Node *element) {
+    int now;
+    heapSize++;
+    heap[heapSize] = element;
+    now = heapSize;
+    while (heap[now / 2]->freq > element->freq) {
+        heap[now] = heap[now / 2];
+        now /= 2;
+    }
+    heap[now] = element;
+}
+
+Node *DeleteMin() {
+    Node *minElement, *lastElement;
+    int child, now;
+    minElement = heap[1];
+    lastElement = heap[heapSize--];
+    for (now = 1; now * 2 <= heapSize; now = child) {
+        child = now * 2;
+        if (child != heapSize && heap[child + 1]->freq < heap[child]->freq) {
+            child++;
+        }
+        if (lastElement->freq > heap[child]->freq) {
+            heap[now] = heap[child];
+        } else {
+            break;
+        }
+    }
+    heap[now] = lastElement;
+    return minElement;
+}
+
+void print(Node *temp, char *code) {
+    char leftcode[10], rightcode[10];
+    int length;
+    if (temp->left == NULL && temp->right == NULL) {
+        printf("char %c code %s\n", temp->ch, code);
+        return;
+    }
+    strcpy(leftcode, code);
+    strcpy(rightcode, code);
+    length = strlen(code);
+    leftcode[length] = '0';
+    leftcode[length + 1] = '\0';
+    rightcode[length] = '1';
+    rightcode[length + 1] = '\0';
+    print(temp->left, leftcode);
+    print(temp->right, rightcode);
+}
+
+int main() {
+    int n, freq, i;
+    char ch;
+    Node *temp, *tree;
+    char code[10];
+    heap[0] = (Node *)malloc(sizeof(Node));
+    heap[0]->freq = 0;
+
+    printf("Enter the number of characters: ");
+    scanf("%d", &n);
+
+    printf("Enter the characters and their frequencies: ");
+    for (i = 0; i < n; i++) {
+        scanf(" %c %d", &ch, &freq);
+        temp = (Node *)malloc(sizeof(Node));
+        temp->ch = ch;
+        temp->freq = freq;
+        temp->left = temp->right = NULL;
+        Insert(temp);
+    }
+
+    if (n == 1) {
+        printf("char %c code 0\n", heap[1]->ch);
+        return 0;
+    }
+
+    for (i = 0; i < n - 1; i++) {
+        Node *left = DeleteMin();
+        Node *right = DeleteMin();
+        temp = (Node *)malloc(sizeof(Node));
+        temp->ch = 0;
+        temp->left = left;
+        temp->right = right;
+        temp->freq = left->freq + right->freq;
+        Insert(temp);
+    }
+
+    tree = DeleteMin();
+    code[0] = '\0';
+    print(tree, code);
+
+    return 0;
+}
+____________________________________________________________
+output 
+4
+a 4
+b 78
+c 90
+d 123
+____________________________________________________________
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+7)	Single Source Shortest Path Algorithm (Bellman-Ford).
+
+Algorithm :
+ BELLMAN-FORD (G,w,s) 
+ 1. INITIALIZE-SINGLE-SOURCE (G, s)
+ 2. for i = 1 to |V| - 1
+ 3. for each edge (u, v) ∈ G
+ 4. RELAX (u, v, w)
+ 5. for each edge (u, v) ∈ G
+ 6. if v.d > u.d + w(u, v)
+ 7. return FALSE
+ 8. return TRUE
+INITIALIZE-SINGLE-SOURCE (G, s)
+ 1. for each vertex v ∈ G.V
+ 2. v.d = ∞
+ 3. v.pi = NIL
+ 4. s.d = 0
+RELAX (u, v, w)
+ 1. if v.d > u.d + w(u, v)
+ 2. v.d = u.d + w(u, v)
+ 3. v.pi = u
+
+codes +++++++++++++++++++++++++++++++++++++++++++++
+
+#include <stdio.h>
+
+#define INFINITY 9999
+#define MAX 10
+
+void bellmanFord(int G[MAX][MAX], int n, int startNode);
+
+int main() {
+    int G[MAX][MAX], n, u ,i, j;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+
+    printf("\nEnter the adjacency matrix:\n");
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            scanf("%d", &G[i][j]);
+
+    printf("\nEnter the starting node: ");
+    scanf("%d", &u);
+
+    bellmanFord(G, n, u);
+
+    return 0;
+}
+
+void bellmanFord(int G[MAX][MAX], int n, int startNode) {
+    int distance[MAX], pred[MAX];
+    int i, u, v, j; // Declare variables here
+
+    // Initialization
+    for (i = 0; i < n; i++) {
+        distance[i] = INFINITY;
+        pred[i] = -1;
+    }
+
+    distance[startNode] = 0;
+
+    // Relaxation
+    for (i = 0; i < n - 1; i++) {
+        for (u = 0; u < n; u++) {
+            for (v = 0; v < n; v++) {
+                if (G[u][v] != 0 && distance[u] + G[u][v] < distance[v]) {
+                    distance[v] = distance[u] + G[u][v];
+                    pred[v] = u;
+                }
+            }
+        }
+    }
+
+    // Check for negative weights
+    for (u = 0; u < n; u++) {
+        for (v = 0; v < n; v++) {
+            if (G[u][v] != 0 && distance[u] + G[u][v] < distance[v]) {
+                printf("Graph contains negative weight cycle.\n");
+                return;
+            }
+        }
+    }
+
+    // Display path
+    for (i = 0; i < n; i++) {
+        if (i != startNode) {
+            printf("\nDistance of node %d = %d", i, distance[i]);
+            printf("\nPath = %d", i);
+            j = i;
+            while (j != startNode) {
+                j = pred[j];
+                printf(" <- %d", j);
+            }
+            printf("\n");
+        }
+    }
+}
+ 
+____________________________________________________________
+output 
+4
+
+0 -9  -8  -1
+0  5  2  67
+90  1  3  5
+0  0  2  0
+
+start 0
+
+
+3
+
+0  3 -7
+0 -3 5 
+-9 2  0
+____________________________________________________________
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+8)	Floyd warshall
+Algorithm :
+1. Create a |V| x |V| matrix, M, that will describe the distances between vertices
+2. For each cell (i, j) in M
+ if i == j
+ M[i][j] = 0
+ if (i, j) is an edge in E:
+ M[i][j] = weight(i, j)
+ else
+ M[i][j] = infinity
+3. for k from 1 to |V|
+ for i from 1 to |V|
+ for j from 1 to |V|
+ if M[i][j] > M[i][k] + M[k][j]
+ M[i][j] = M[i][k] + M[k][j]
+
+codes
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void floydWarshall(int **graph, int n) {
+    int i, j, k;
+
+    for (k = 0; k < n; k++) {
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                if (graph[i][j] > graph[i][k] + graph[k][j])
+                    graph[i][j] = graph[i][k] + graph[k][j];
+            }
+        }
+    }
+}
+
+int main(void) {
+    int n, i, j;
+    int **graph;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+
+    graph = (int **)malloc(n * sizeof(int *));
+    for (i = 0; i < n; i++) {
+        graph[i] = (int *)malloc(n * sizeof(int));
+    }
+
+    printf("Enter the edges:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            printf("[%d][%d]: ", i, j);
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    printf("The original graph is:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            printf("%d ", graph[i][j]);
+        }
+        printf("\n");
+    }
+
+    floydWarshall(graph, n);
+
+    printf("The shortest path matrix is:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            printf("%d ", graph[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Free memory allocated for graph
+    for (i = 0; i < n; i++) {
+        free(graph[i]);
+    }
+    free(graph);
+
+    return 0;
+}
+
+____________________________________________________________
+output
+3
+
+0
+8
+9
+9999
+1
+12
+2
+3
+0
+____________________________________________________________
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+9)	Longest common subsequence problem
+
+. Algorithm : 
+LCS - Length ( X , Y )
+1. m = length [ X ]
+2. n = length ( Y )
+3. for i= 1 to m
+4. do c [ i , 0 ]= 0
+5. for j= 1 to n 
+6. do c [ 0 , j ] = 0
+7. for i = 1 to m 
+8. do for j = 1 to n 
+ 9. do if xi = yi
+ 10. then c [ i , j ] = c [ i – 1 , j – 1 ] + 1
+ 11. b [ i , j ] = “ “
+ 12. else if c [ i – 1 , j ] >= c [ i , j – 1 ]
+ 13. then c [ i , j ] = c [ i – 1 , j ]
+ 14. b [ i , j ] = “ 🡨 “
+ 15. else c [ i , j ] = c [ i , j - 1 ]
+ 16. b [ i , j ] = “ “
+ 17. return c and b
+PRINT-LCS ( b, x, i, j)
+1. if i = 0 or j = 0
+2. then return
+3. if b [ i , j ] = ” ” 
+4. then PRINT – LCS ( b , x , i – 1 , j - 1)
+5. print xi
+6. else if b [ i , j ] = ” 🡨 ” 
+7. then PRINT – LCS ( b , x , i – 1 , j )
+8. Else PRINT – LCS ( b , x , i , j – 1 )
+
+codes++++++++++++++++++++++++++++++++++++++++
+#include <stdio.h>
+#include <string.h>
+#include <alloc.h>
+
+int comp = 0;
+
+int max(int a, int b) {
+    if (a > b)
+        return a;
+    else
+        return b;
+}
+
+void findLCS(char *X, char *Y, int m, int n) {
+    int length, i, j;
+    int **LCS;
+    char *lcs;
+
+    // Allocate memory for LCS array
+    LCS = (int **)malloc((m + 1) * sizeof(int *));
+    for (i = 0; i < m + 1; i++) {
+        LCS[i] = (int *)malloc((n + 1) * sizeof(int));
+    }
+
+    // Allocate memory for LCS string
+    lcs = (char *)malloc((m + n + 1) * sizeof(char));
+
+    for (i = 0; i <= m; i++) {
+        for (j = 0; j <= n; j++) {
+            if (i == 0 || j == 0)
+                LCS[i][j] = 0;
+            else if (X[i - 1] == Y[j - 1])
+                LCS[i][j] = LCS[i - 1][j - 1] + 1;
+            else
+                LCS[i][j] = max(LCS[i - 1][j], LCS[i][j - 1]);
+            comp++;
+        }
+    }
+
+    length = LCS[m][n];
+    lcs[length] = '\0';
+
+    i = m;
+    j = n;
+    while (i > 0 && j > 0) {
+        if (X[i - 1] == Y[j - 1]) {
+            lcs[length - 1] = X[i - 1];
+            i--;
+            j--;
+            length--;
+        } else if (LCS[i - 1][j] > LCS[i][j - 1]) {
+            i--;
+        } else {
+            j--;
+        }
+    }
+
+    printf("Longest Common Subsequence: %s\n", lcs);
+
+    // Free allocated memory
+    for (i = 0; i < m + 1; i++) {
+        free(LCS[i]);
+    }
+    free(LCS);
+    free(lcs);
+}
+
+int main() {
+    char X[100], Y[100];
+    int m, n;
+
+    printf("Enter the first string: ");
+    gets(X);
+    printf("Enter the second string: ");
+    gets(Y);
+
+    m = strlen(X);
+    n = strlen(Y);
+
+    findLCS(X, Y, m, n);
+
+    printf("Time Complexity: %d\n", comp);
+
+    return 0;
+}
+
+____________________________________________________________
+output
+abcdedfkje
+edfkty
+____________________________________________________________
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+10)	8 Queen’s Problem
+
+Algorithm Queen (n)
+// Input : Total number of Queen’s n
+for column =1 to n do
+{
+if(place(row,column)) then
+ {
+board[row]=column // no conflict so place queen
+if(row==n) then //dead end
+print_board(n) // printing the board configuration
+else // try next queen with next position
+Queen(row+1,n);
+ }
+}
+Algorithm place (row, column)
+// This algorithm is for placing the queen at appropriate position
+// Input : row and column of the chessboard
+fori🡨 1 to row-1 do
+{ 
+ // checking for column and diadonal conflicts
+if ( board[i] = column ) then
+return 0;
+else if ( abs(board[i] – column) = abs(i-row)) then
+return 0;
+}
+// no conflicts hence Queen can be placed
+return 1;
+
+codes++++++++++++++++++++++++++++++++++++++
+
+#include <stdio.h>
+
+#define N_MAX 20 // Maximum number of queens (adjust as needed)
+
+int comp = 0;
+
+typedef enum { FALSE, TRUE } Bool;
+
+void printSolution(int board[][N_MAX], int N) {
+    int i, j;
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            printf("%2d ", board[i][j]);
+            comp++;
+        }
+        printf("\n");
+    }
+}
+
+Bool isSafe(int board[][N_MAX], int row, int col, int N) {
+    int i, j;
+    // Check for queens in the same row
+    for (i = 0; i < col; i++) {
+        if (board[row][i]) {
+            return FALSE;
+        }
+    }
+    // Check upper diagonal on left side
+    for (i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+        if (board[i][j]) {
+            return FALSE;
+        }
+    }
+    // Check lower diagonal on left side
+    for (i = row, j = col; i < N && j >= 0; i++, j--) {
+        if (board[i][j]) {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+Bool solveNQueens(int board[][N_MAX], int col, int N) {
+    int i;
+    if (col >= N) {
+        return TRUE; // All queens are placed
+    }
+    for (i = 0; i < N; i++) {
+        if (isSafe(board, i, col, N)) {
+            board[i][col] = 1; // Place the queen
+            if (solveNQueens(board, col + 1, N)) {
+                return TRUE;
+            }
+            board[i][col] = 0; // Backtrack if placement leads to failure
+        }
+    }
+    return FALSE; // No safe place found, backtrack
+}
+
+int main() {
+    int N,i,j,board[N_MAX][N_MAX];
+    printf("Enter the number of queens (up to %d): ", N_MAX);
+    scanf("%d", &N);
+    if (N < 1 || N > N_MAX) {
+        printf("Invalid number of queens. Please enter a number between 1 and %d.\n", N_MAX);
+        return 1;
+    }
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            board[i][j] = 0; // Initialize board with 0 (no queens)
+        }
+    }
+    if (!solveNQueens(board, 0, N)) {
+        printf("Solution does not exist\n");
+    } else {
+        printf("Solution to the %d Queens Problem:\n", N);
+        printSolution(board, N);
+    }
+    printf("Time Complexity: %d\n", comp);
+    return 0;
+}
+
+________________________________________________________
+output
+4 or 7
+
+____________________________________________________________
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+11)	Naïve String-Matching Algorithm
+Algorithm :
+NAÏVE_STRING_MATCHER (T, P) 
+1. n ← length [T] 
+2. m ← length [P] 
+3. for s ← 0 to n - m do 
+4. if P[1 . . m] = T[s +1 . . s + m] 
+5. then return valid shift s
+NAÏVE_STRING_MATCHER (T, P)
+1. n ← length [T] 
+2. m ← length [P] 
+3. for s ← 0 to n-m do
+4. j ← 1 
+5. while j ≤ m and T[s + j] = P[j] do
+6. j ← j +1
+7. If j > m then
+8. return valid shift s
+9. return no valid shift exist // i.e., there is no substring of T matching P.
+
+codes++++++++++++++++++++++++++++++++++++++++
+
+#include <stdio.h>
+#include <string.h>
+
+long comp = 0; // Change int to long
+
+void naiveStringMatch(char* text, char* pattern) {
+    int textLen = strlen(text);
+    int patternLen = strlen(pattern);
+    int i,j;
+
+    for (i = 0 ; i <= textLen - patternLen; i++) {
+        for (j = 0 ; j < patternLen; j++) {
+            if (text[i + j] != pattern[j])
+                break;
+        }
+        if (j == patternLen) {
+            printf("Pattern found at index %d\n", i);
+        }
+        comp++;
+    }
+}
+
+int main() {
+    char text[100], pattern[100]; // Increase array size for text and pattern
+
+    printf("Enter the text: ");
+    scanf("%s", text);
+
+    printf("Enter the pattern: ");
+    scanf("%s", pattern);
+
+    printf("Text: %s\n", text);
+    printf("Pattern: %s\n", pattern);
+    printf("Occurrences of the pattern:\n");
+
+    naiveStringMatch(text, pattern);
+
+    printf("Time Complexity: %ld\n", comp); // Change %d to %ld
+
+    return 0;
+}
+
+
+output_______________________________________________
+hhjhjujhjkj
+hjkj
+
+
